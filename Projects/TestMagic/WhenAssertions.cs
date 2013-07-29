@@ -2,6 +2,7 @@
 
 namespace TestMagic
 {
+    // todo: document
     public class WhenAssertions<TGiven>
     {
         internal GivenAssertions<TGiven> Given;
@@ -13,6 +14,7 @@ namespace TestMagic
             this.Action = action;
         }
 
+        // todo: document
         public ThenAssertions<TGiven, TException> Then<TException>() where TException : Exception
         {
             return new ThenAssertions<TGiven, TException>(this);

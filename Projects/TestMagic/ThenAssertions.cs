@@ -3,6 +3,7 @@ using TestMagic.Imports.OpenMagic;
 
 namespace TestMagic
 {
+    // todo: document
     public class ThenAssertions<TGiven, TException> where TException : Exception
     {
         private WhenAssertions<TGiven> When;
@@ -16,6 +17,7 @@ namespace TestMagic
             this.When = when;
         }
 
+        // todo: document
         public ThenAssertions<TGiven, TException> ShouldBeThrown()
         {
             ShouldBeThrownCalled = true;
@@ -44,6 +46,7 @@ namespace TestMagic
             return this;
         }
 
+        // todo: document
         public ThenAssertions<TGiven, TException> ForParameter(string paramName)
         {
             if (!ShouldBeThrownCalled)

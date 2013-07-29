@@ -2,8 +2,10 @@
 
 namespace TestMagic
 {
+    // todo: document
     public class GWT
     {
+        // todo: document
         public static GivenAssertions<TGiven> Given<TGiven>(TGiven givenValue)
         {
             givenValue.MustNotBeNull("givenValue");
