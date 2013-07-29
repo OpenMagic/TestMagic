@@ -1,32 +1,14 @@
-﻿using System;
+﻿using TestMagic.Imports.OpenMagic;
 
 namespace TestMagic
 {
     public class GWT
     {
-        public static GWT Given<T>(T givenValue)
+        public static GivenAssertions<TGiven> Given<TGiven>(TGiven givenValue)
         {
-            throw new System.NotImplementedException();
-        }
+            givenValue.MustNotBeNull("givenValue");
 
-        public GWT When(Action action)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public GWT Then<TException>()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public GWT ShouldBeThrown()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public GWT ForParameter(string paramName)
-        {
-            throw new System.NotImplementedException();
+            return new GivenAssertions<TGiven>(givenValue);
         }
     }
 }
