@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="TestMagic.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Imports\README.md" />
