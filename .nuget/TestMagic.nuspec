@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+    <metadata>
+        <id>TestMagic</id>
+        <version>$version$</version>
+        <title>TestMagic</title>
+        <authors>Tim Murphy</authors>
+        <owners>Tim Murphy</owners>
+        <licenseUrl>https://github.com/OpenMagic/TestMagic/blob/master/LICENSE.txt</licenseUrl>
+        <projectUrl>https://github.com/OpenMagic/TestMagic</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Collection of test helpers.</description>
+        <copyright>Copyright (c) 2013 Tim Murphy</copyright>
+    </metadata>
+    <files>
+        <file src="..\Projects\TestMagic\bin\Release\TestMagic.*" target="lib"/>
+    </files>
+</package>
