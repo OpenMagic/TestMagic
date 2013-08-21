@@ -131,6 +131,19 @@ namespace TestMagic.Tests
             }
 
             [TestMethod]
+            public void ShouldThrowExceptionIfWhenDoesNotThrowAnException()
+            {
+                // Given
+                var given = GWT.Given(new Helper()).When(g => g.ArgumentNullTester("fake")).Then<Exception>();
+
+                // When
+                Action action = () => given.ShouldBeThrown();
+
+                // Then
+                action.ShouldThrow<Exception>().WithMessage("Expected System.Exception to be thrown but not exception was thrown.");
+            }
+
+            [TestMethod]
             public void ShouldNotThrowExceptionIfWhenThrowsExceptedException()
             {
                 // Given
@@ -147,7 +160,7 @@ namespace TestMagic.Tests
             public void ShouldReturnSameInstanceOfGWT()
             {
                 // Given
-                var given = GWT.Given(new Exception()).When(g => g.ToString()).Then<Exception>();
+                var given = GWT.Given(new Helper()).When(h => h.ThrowException()).Then<Exception>();
 
                 // When
                 var givenShouldBeThrown = given.ShouldBeThrown();

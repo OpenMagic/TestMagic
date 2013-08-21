@@ -22,12 +22,14 @@ namespace TestMagic
         {
             ShouldBeThrownCalled = true;
 
+            var exceptionNotThrown = false;
             var given = When.Given.Value;
             var when = When.Action;
 
             try
             {
                 when(given);
+                exceptionNotThrown = true;
             }
             catch (TException ex)
             {
@@ -41,6 +43,11 @@ namespace TestMagic
                 var message = string.Format("Expected {0}, but found {1}: {2}.", typeof(TException), ex.GetType(), ex.Message);
 
                 throw new Exception(message);
+            }
+
+            if (exceptionNotThrown)
+            {
+                throw new Exception(string.Format("Expected {0} to be thrown but not exception was thrown.", typeof(TException)));
             }
 
             return this;
