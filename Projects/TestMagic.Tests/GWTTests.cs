@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -32,6 +33,46 @@ namespace TestMagic.Tests
                     throw;
                 }
             }
+        }
+
+        [TestMethod]
+        public void PassingConstructorExampleForAllParameters()
+        {
+            GWT.When<TestClassWithConstructorThatHasImplementedArgumentNullValidation>()
+                .IsConstructed()
+                .Then<ArgumentNullException>().ShouldBeThrown().ForAllParameters();
+        }
+
+        [TestMethod]
+        public void FailingConstructorExampleForAllParameters()
+        {
+            try
+            {
+                GWT.When<TestClassWithConstructorThatHasNotImplementedArgumentNullValidation>()
+                    .IsConstructed()
+                    .Then<ArgumentNullException>().ShouldBeThrown().ForAllParameters();
+
+                Assert.Fail("Expected exception to be thrown.");
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message != "Expected TestMagic.Tests.GWTTests+TestClassWithConstructorThatHasNotImplementedArgumentNullValidation constructor to throw ArgumentNullException for param0 but no exception was thrown.")
+                {
+                    throw;
+                }
+            }
+        }
+
+        [TestMethod]
+        public void PassingConstructorExampleForParameter()
+        {
+            Assert.Inconclusive();
+        }
+
+        [TestMethod]
+        public void FailingConstructorExampleForParameter()
+        {
+            Assert.Inconclusive();
         }
 
         [TestClass]
@@ -240,6 +281,30 @@ namespace TestMagic.Tests
                     throw new ArgumentNullException("value");
                 }
             }
+        }
+
+        private class TestClassWithConstructorThatHasImplementedArgumentNullValidation
+        {
+            public TestClassWithConstructorThatHasImplementedArgumentNullValidation(PropertyInfo param0, Exception param1)
+            {
+                this.MustNotBeNull(param0, "param0");
+                this.MustNotBeNull(param1, "param1");
+            }
+
+            private void MustNotBeNull(object param, string paramName)
+            {
+                if (param == null)
+                {
+                    throw new ArgumentNullException(paramName);
+                }
+            }
+        }
+
+        private class TestClassWithConstructorThatHasNotImplementedArgumentNullValidation
+        {
+            public TestClassWithConstructorThatHasNotImplementedArgumentNullValidation(PropertyInfo param0, Exception param1)
+            {
+            }    
         }
     }
 }

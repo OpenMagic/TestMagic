@@ -20,11 +20,18 @@ namespace TestMagic
         // todo: document
         public ThenAssertions<TGiven, TException> ShouldBeThrown()
         {
+            // todo: unit test is statement
+            if (this.When.Given.ValidatingConstructor)
+            {
+                // Assuming ForAllParameters or ForParameter will be called.
+                return this;
+            }
+
             ShouldBeThrownCalled = true;
 
             var exceptionNotThrown = false;
-            var given = When.Given.Value;
-            var when = When.Action;
+            var given = this.When.Given.Value;
+            var when = this.When.Action;
 
             try
             {
@@ -76,6 +83,13 @@ namespace TestMagic
             var actualParamName = ThrownException.Message.Substring(index + 16);
 
             throw new Exception(string.Format("Expected parameter name {0}, but found {1}.", paramName, actualParamName));
+        }
+
+        // todo: document
+        // todo: unit tests
+        public void ForAllParameters()
+        {
+            new ConstructorFor<TGiven>().ShouldThrowArgumentNullExceptionForAllParameters();
         }
     }
 }

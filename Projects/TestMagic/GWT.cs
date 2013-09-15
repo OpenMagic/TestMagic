@@ -12,5 +12,12 @@ namespace TestMagic
 
             return new GivenAssertions<TGiven>(givenValue);
         }
+
+        public static WhenAssertions<TGiven> When<TGiven>()
+        {
+            var given = new GivenAssertions<TGiven>();
+
+            return given.When();
+        }
     }
 }
