@@ -1,5 +1,4 @@
 ﻿using System;
-using TestMagic.Imports.OpenMagic;
 
 namespace TestMagic
 {
@@ -12,8 +11,6 @@ namespace TestMagic
 
         internal ThenAssertions(WhenAssertions<TGiven> when)
         {
-            when.MustNotBeNull("when");
-
             this.When = when;
         }
 

@@ -1,6 +1,4 @@
-﻿using TestMagic.Imports.OpenMagic;
-
-namespace TestMagic
+﻿namespace TestMagic
 {
     // todo: document
     public class GWT
@@ -8,8 +6,6 @@ namespace TestMagic
         // todo: document
         public static GivenAssertions<TGiven> Given<TGiven>(TGiven givenValue)
         {
-            givenValue.MustNotBeNull("givenValue");
-
             return new GivenAssertions<TGiven>(givenValue);
         }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using TestMagic.Imports.OpenMagic;
 
 namespace TestMagic
 {
@@ -16,8 +15,6 @@ namespace TestMagic
 
         internal GivenAssertions(TGiven givenValue)
         {
-            givenValue.MustNotBeNull("givenValue");
-
             this.Value = givenValue;
         }
 
@@ -36,8 +33,6 @@ namespace TestMagic
         // todo: document
         public WhenAssertions<TGiven> When(Action<TGiven> action)
         {
-            action.MustNotBeNull("action");
-
             // todo: unit this if.
             if (this.ValidatingConstructor)
             {
