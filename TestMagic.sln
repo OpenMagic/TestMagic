@@ -13,11 +13,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A4A932
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CF324E1D-757F-496C-A24B-75B9B9BBF246}"
 	ProjectSection(SolutionItems) = preProject
+		Build.bat = Build.bat
 		LICENSE.txt = LICENSE.txt
 		MyGet.bat = MyGet.bat
 		README.md = README.md
 		TestMagic.testsettings = TestMagic.testsettings
 		TestMagic.vsmdi = TestMagic.vsmdi
+		Scripts\TestMyGetBuild.bat = Scripts\TestMyGetBuild.bat
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMagic", "Projects\TestMagic\TestMagic.csproj", "{252921A9-D046-49AC-9185-87087761C182}"
