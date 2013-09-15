@@ -66,13 +66,29 @@ namespace TestMagic.Tests
         [TestMethod]
         public void PassingConstructorExampleForParameter()
         {
-            Assert.Inconclusive();
+            GWT.When<TestClassWithConstructorThatHasImplementedArgumentNullValidation>()
+                .IsConstructed()
+                .Then<ArgumentNullException>().ShouldBeThrown().ForParameter("param0");
         }
 
         [TestMethod]
         public void FailingConstructorExampleForParameter()
         {
-            Assert.Inconclusive();
+            try
+            {
+                GWT.When<TestClassWithConstructorThatHasNotImplementedArgumentNullValidation>()
+                    .IsConstructed()
+                    .Then<ArgumentNullException>().ShouldBeThrown().ForParameter("param1");
+
+                Assert.Fail("Expected exception to be thrown.");
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message != "Expected TestMagic.Tests.GWTTests+TestClassWithConstructorThatHasNotImplementedArgumentNullValidation constructor to throw ArgumentNullException for param1 but no exception was thrown.")
+                {
+                    throw;
+                }
+            }
         }
 
         [TestClass]

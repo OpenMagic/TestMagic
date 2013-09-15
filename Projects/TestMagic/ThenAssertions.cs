@@ -63,6 +63,13 @@ namespace TestMagic
         // todo: document
         public ThenAssertions<TGiven, TException> ForParameter(string paramName)
         {
+            // todo: this if requires unit test.
+            if (this.When.Given.ValidatingConstructor)
+            {
+                new ConstructorFor<TGiven>().ShouldThrowArgumentNullException(forParameter: paramName);
+                return this;
+            }
+
             if (!ShouldBeThrownCalled)
             {
                 throw new InvalidOperationException("ForParameter(paramName) cannot be called before ShouldBeThrown().");
