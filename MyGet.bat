@@ -35,12 +35,13 @@ echo.
 
 if "%GallioEcho%" == "" (
 
-  rem Simulate myget.org environment.
+  echo Running tests with mstest...
   "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\mstest.exe" /testcontainer:Projects\TestMagic.Tests\bin\Release\TestMagic.Tests.dll"
+  
 ) else (
 
-  rem myget.org build server.
-  %GallioEcho%  Projects\TestMagic.Tests\bin\Release\TestMagic.Tests.dll
+  echo Running tests with Gallio...
+  "%GallioEcho%" Projects\TestMagic.Tests\bin\Release\TestMagic.Tests.dll
 )
 
 if not "%errorlevel%" == "0" goto Error
