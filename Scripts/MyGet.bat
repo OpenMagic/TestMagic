@@ -1,5 +1,11 @@
 @echo off
 
+pushd %~dp0\..\
+
+echo Current directory: 
+cd
+echo.
+
 echo Setting up build environment...
 echo -------------------------------
 echo.
@@ -24,7 +30,7 @@ echo Building solution...
 echo -------------------------------
 echo.
 
-%WINDIR%\Microsoft.NET\Framework\v4.0.30319\msbuild /p:Configuration=Release
+%WINDIR%\Microsoft.NET\Framework\v4.0.30319\msbuild /p:Configuration=%config%
 if not "%errorlevel%" == "0" goto Error
 echo.
 echo.
@@ -76,6 +82,9 @@ echo.
 echo.
 echo Build was successful.
 echo =====================
+echo.
+echo.
+popd
 exit 0
 
 :Error
@@ -86,4 +95,5 @@ echo *** An error occurred. ***
 echo **************************
 echo.
 echo.
+popd
 exit -1
