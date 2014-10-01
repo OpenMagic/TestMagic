@@ -26,6 +26,18 @@ if not "%PackageVersion%" == "" (
    set version=-Version %PackageVersion%
 )
 
+echo Restoring packages...
+echo -------------------------------
+rem Packages must be explicity restored otherwise NullGuard.Fody does not run.
+rem
+rem Packages folder must be packages otherwise MyGet will push dependant
+rem packages to my feed.
+echo.
+.nuget\nuget restore -PackagesDirectory .\packages
+if not "%errorlevel%" == "0" goto Error
+echo.
+echo.
+
 echo Building solution...
 echo -------------------------------
 echo.
@@ -41,15 +53,20 @@ echo.
 
 if "%GallioEcho%" == "" (
 
-  echo Running tests with mstest...
-  "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\mstest.exe" /testcontainer:Projects\TestMagic.Tests\bin\Release\TestMagic.Tests.dll"
-  
-) else (
+  if exist "C:\Program Files\Gallio\bin\Gallio.Echo.exe" (
 
-  echo Running tests with Gallio...
-  "%GallioEcho%" Projects\TestMagic.Tests\bin\Release\TestMagic.Tests.dll
+    echo Setting GallioEcho environment variable...
+    set GallioEcho=""C:\Program Files\Gallio\bin\Gallio.Echo.exe""
+    
+  ) else (
+
+	echo Gallio is required to run unit tests. Try cinst Gallio.
+	goto Error
+	
+  )
 )
 
+"%GallioEcho%" Projects\TestMagic.Tests\bin\Release\TestMagic.Tests.dll
 if not "%errorlevel%" == "0" goto Error
 echo.
 echo.
