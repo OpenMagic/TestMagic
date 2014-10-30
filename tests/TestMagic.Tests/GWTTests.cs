@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace TestMagic.Tests
 {
-    [TestClass]
     public class GWTTests
     {
-        [TestMethod]
+        [Fact]
         public void PassingExample()
         {
             GWT.Given(new Helper())
@@ -17,7 +15,7 @@ namespace TestMagic.Tests
                 .Then<ArgumentNullException>().ShouldBeThrown().ForParameter("value");
         }
 
-        [TestMethod]
+        [Fact]
         public void FailingExample()
         {
             try
@@ -35,7 +33,7 @@ namespace TestMagic.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void PassingConstructorExampleForAllParameters()
         {
             GWT.When<TestClassWithConstructorThatHasImplementedArgumentNullValidation>()
@@ -43,7 +41,7 @@ namespace TestMagic.Tests
                 .Then<ArgumentNullException>().ShouldBeThrown().ForAllParameters();
         }
 
-        [TestMethod]
+        [Fact]
         public void FailingConstructorExampleForAllParameters()
         {
             try
@@ -52,7 +50,7 @@ namespace TestMagic.Tests
                     .IsConstructed()
                     .Then<ArgumentNullException>().ShouldBeThrown().ForAllParameters();
 
-                Assert.Fail("Expected exception to be thrown.");
+                throw new Exception("Expected exception to be thrown.");
             }
             catch (Exception ex)
             {
@@ -63,7 +61,7 @@ namespace TestMagic.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void PassingConstructorExampleForParameter()
         {
             GWT.When<TestClassWithConstructorThatHasImplementedArgumentNullValidation>()
@@ -71,7 +69,7 @@ namespace TestMagic.Tests
                 .Then<ArgumentNullException>().ShouldBeThrown().ForParameter("param0");
         }
 
-        [TestMethod]
+        [Fact]
         public void FailingConstructorExampleForParameter()
         {
             try
@@ -80,7 +78,7 @@ namespace TestMagic.Tests
                     .IsConstructed()
                     .Then<ArgumentNullException>().ShouldBeThrown().ForParameter("param1");
 
-                Assert.Fail("Expected exception to be thrown.");
+                throw new Exception("Expected exception to be thrown.");
             }
             catch (Exception ex)
             {
@@ -91,10 +89,9 @@ namespace TestMagic.Tests
             }
         }
 
-        [TestClass]
         public class Given_Tests
         {
-            [TestMethod]
+            [Fact]
             public void ShouldReturnInstanceOfGWT()
             {
                 // Given
@@ -107,7 +104,7 @@ namespace TestMagic.Tests
                 given.Should().NotBeNull().And.BeOfType<GivenAssertions<object>>();
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldThrowArgumentNullExceptionWhen_givenValue_IsNull()
             {
                 // Given
@@ -121,10 +118,9 @@ namespace TestMagic.Tests
             }
         }
 
-        [TestClass]
         public class When
         {
-            [TestMethod]
+            [Fact]
             public void ShouldReturnWhenAssertion()
             {
                 // Given
@@ -138,7 +134,7 @@ namespace TestMagic.Tests
                 when.Should().BeOfType<WhenAssertions<Exception>>();
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldThrowArgumentNullExceptionWhen_givenValue_IsNull()
             {
                 // Given
@@ -152,10 +148,9 @@ namespace TestMagic.Tests
             }
         }
 
-        [TestClass]
         public class Then
         {
-            [TestMethod]
+            [Fact]
             public void ShouldReturnThenAssertion()
             {
                 // Given
@@ -171,10 +166,9 @@ namespace TestMagic.Tests
             }
         }
 
-        [TestClass]
         public class ShouldBeThrown
         {
-            [TestMethod]
+            [Fact]
             public void ShouldThrowExceptionIfWhenDoesNotThrowExceptedException()
             {
                 // Given
@@ -187,7 +181,7 @@ namespace TestMagic.Tests
                 action.ShouldThrow<Exception>().WithMessage("Expected System.InvalidOperationException, but found System.ArgumentNullException: Value cannot be null.\r\nParameter name: value.");
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldThrowExceptionIfWhenDoesNotThrowAnException()
             {
                 // Given
@@ -200,7 +194,7 @@ namespace TestMagic.Tests
                 action.ShouldThrow<Exception>().WithMessage("Expected System.Exception to be thrown but not exception was thrown.");
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldNotThrowExceptionIfWhenThrowsExceptedException()
             {
                 // Given
@@ -213,7 +207,7 @@ namespace TestMagic.Tests
                 action.ShouldNotThrow<Exception>();
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldReturnSameInstanceOfGWT()
             {
                 // Given
@@ -227,10 +221,9 @@ namespace TestMagic.Tests
             }
         }
 
-        [TestClass]
         public class ForParameter
         {
-            [TestMethod]
+            [Fact]
             public void ShouldNotThrowExceptionIfExpectedParameterNameIsThrown()
             {
                 // Given
@@ -243,7 +236,7 @@ namespace TestMagic.Tests
                 action.ShouldNotThrow<Exception>();
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldThrowExceptionIfExpectedParameterNameIsNotThrown()
             {
                 // Given
@@ -256,7 +249,7 @@ namespace TestMagic.Tests
                 action.ShouldThrow<Exception>().WithMessage("Expected parameter name wrong parameter name, but found value.");
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldThrowExceptionIfThrownExceptionMessageDoesNotIncludeParameterName()
             {
                 // Given
@@ -269,7 +262,7 @@ namespace TestMagic.Tests
                 action.ShouldThrow<Exception>().WithMessage("Expected parameter name to be included exception message 'deliberately threw exception'.");
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldThrowInvalidOperationExceptionIfForParameterIsCalledBeforeShouldBeThrown()
             {
                 // Given
