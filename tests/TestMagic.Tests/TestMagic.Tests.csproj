@@ -60,13 +60,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TestMagic\TestMagic.csproj">
+    <ProjectReference Include="..\..\src\TestMagic\TestMagic.csproj">
       <Project>{252921A9-D046-49AC-9185-87087761C182}</Project>
       <Name>TestMagic</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="Packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
