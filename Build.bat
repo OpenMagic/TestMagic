@@ -30,8 +30,16 @@ rem
 rem =======================================================================
 
 :Build
+
 pushd %~dp0
-powershell.exe -file .\Build\Build.ps1 %1
+
+set BuildTask = %1
+
+if "%1" == "continuous" set BuildTask = 
+if "%1" == "c" set BuildTask = 
+
+powershell.exe -file .\Build\Build.ps1 %BuildTask%
+
 popd
 
 if "%1" == "" (
