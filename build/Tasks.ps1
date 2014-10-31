@@ -16,12 +16,25 @@ properties {
     $nuget = "$packages\NuGet\NuGet.exe"
 }
 
+# Cleans the solution by removing bin and obj for the requested configuration.
 Task Clean {
     Exec { msbuild $solution /target:Clean /verbosity:$msBuildVerbosity /property:Configuration=$msBuildConfiguration }
     Write-Host
 }
 
-Task Package -depends Clean {
+# Restores all packages.
+Task Restore-Packages {
+    Exec { & "$nuget" restore $solution -PackagesDirectory $packages -Verbosity $nuGetVerbosity -ConfigFile .\NuGet.config -NonInteractive }
+    Write-Host
+}
+
+# Compile the solution.
+Task Compile -depends Restore-Packages {
+    Exec { msbuild $solution /target:ReBuild /verbosity:$msBuildVerbosity /property:Configuration=$msBuildConfiguration }
+    Write-Host
+}
+
+Task Package -depends Clean, Compile {
     Write-Host "todo: Package"
     Write-Host "todo: Help"
 }
