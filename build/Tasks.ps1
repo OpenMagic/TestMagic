@@ -2,17 +2,28 @@
 
 properties {
 
+    # Versosity levels
+    $msBuildVerbosity = "normal"
+    $nuGetVerbosity = "normal"
+
     # Configuration properties that are likely to be the same for every solution.
     $msBuildConfiguration = "Release"
 
     # Support properties that are likely to be the same for every solution.
     $solution = Get-Solution
     $solutionDirectory = Split-Path $solution -Parent
-    $nuget = "$solutionDirectory\NuGet\NuGet.exe"
+    $packages = "$solutionDirectory\packages"
+    $nuget = "$packages\NuGet\NuGet.exe"
 }
 
-Task Package {
-    Write-Host "todo"
+Task Clean {
+    Exec { msbuild $solution /target:Clean /verbosity:$msBuildVerbosity /property:Configuration=$msBuildConfiguration }
+    Write-Host
+}
+
+Task Package -depends Clean {
+    Write-Host "todo: Package"
+    Write-Host "todo: Help"
 }
 
 TaskSetup {
