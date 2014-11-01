@@ -3,7 +3,7 @@
 properties {
 
     # Versosity levels
-    $msBuildVerbosity = "normal"
+    $msBuildVerbosity = "minimal"
     $nuGetVerbosity = "normal"
 
     # Configuration properties that are likely to be the same for every solution.
