@@ -12,15 +12,25 @@ properties {
     # Support properties that are likely to be the same for every solution.
     $solution = Get-Solution
     $solutionDirectory = Split-Path $solution -Parent
+    $artifactsDirectory = "$solutionDirectory\artifacts"
+    $packagesDirectory = "$solutionDirectory\packages"
     $testsDirectory = "$solutionDirectory\tests"
-    $packages = "$solutionDirectory\packages"
-    $nuget = "$packages\NuGet\NuGet.exe"
-    $xunit = "$packages\xunit.runners\tools\xunit.console.clr4.exe"
+    $nuget = "$packagesDirectory\NuGet\NuGet.exe"
+    $xunit = "$packagesDirectory\xunit.runners\tools\xunit.console.clr4.exe"
 }
 
 # Cleans the solution by removing bin and obj for the requested configuration.
 Task Clean {
+    
     Exec { msbuild $solution /target:Clean /verbosity:$msBuildVerbosity /property:Configuration=$msBuildConfiguration }
+    
+    if (Test-Path $artifactsDirectory) {
+
+        Write-Host "Deleting artifacts directory..."
+        Remove-Item -LiteralPath $artifactsDirectory -Recurse -Force | Out-Null
+        Write-Host "Deleted artifacts directory."
+    }
+    
     Write-Host
 }
 
@@ -28,7 +38,7 @@ Task Clean {
 Task Restore-Packages {
 
     # Restore solution defined packages.
-    Exec { & $nuget restore $solution -PackagesDirectory $packages -Verbosity $nuGetVerbosity -ConfigFile .\NuGet.config -NonInteractive }
+    Exec { & $nuget restore $solution -PackagesDirectory $packagesDirectory -Verbosity $nuGetVerbosity -ConfigFile .\NuGet.config -NonInteractive }
 
     # Install xunit.runners. 
     #
@@ -37,7 +47,7 @@ Task Restore-Packages {
         Write-Host "Package ""xunit.runners"" is already installed."
     } else {
         Write-Host "Installing 'xunit.runners'..."
-        Exec { & $nuget install xunit.runners -OutputDirectory $packages -ConfigFile .\NuGet.config -NonInteractive -ExcludeVersion }
+        Exec { & $nuget install xunit.runners -OutputDirectory $packagesDirectory -ConfigFile .\NuGet.config -NonInteractive -ExcludeVersion }
     }
 
     # Validate xunit exe has been installed.
@@ -50,7 +60,9 @@ Task Restore-Packages {
 
 # Compile the solution.
 Task Compile -depends Restore-Packages {
+
     Exec { msbuild $solution /target:ReBuild /verbosity:$msBuildVerbosity /property:Configuration=$msBuildConfiguration }
+
     Write-Host
 }
 
