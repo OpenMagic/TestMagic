@@ -13,13 +13,12 @@ properties {
     $solution = Get-Solution
     $solutionDirectory = Split-Path $solution -Parent
     $artifactsDirectory = "$solutionDirectory\artifacts"
+    $logsDirectory = "$artifactsDirectory\logs"
     $packagesDirectory = "$solutionDirectory\packages"
     $testsDirectory = "$solutionDirectory\tests"
     $nuget = "$packagesDirectory\NuGet\NuGet.exe"
     $xunit = "$packagesDirectory\xunit.runners\tools\xunit.console.clr4.exe"
-    $msBuildLog = "$artifactsDirectory\logs\msbuild.log"
-    $xunitXmlLog = "$artifactsDirectory\logs\xunit.xml"
-    $xunitHtmlLog = "$artifactsDirectory\logs\xunit.html"
+    $msBuildLog = "$logsDirectory\msbuild.log"
 }
 
 # Cleans the solution by removing bin and obj for the requested configuration.
@@ -92,7 +91,7 @@ Task Test -depends Restore-Packages, Compile {
             
             Write-Host "Running tests in '$testAssembly'..."
             Write-Host
-            Exec { & $xunit $testAssembly /xml $xunitXmlLog /html $xunitHtmlLog }
+            Exec { & $xunit $testAssembly /xml "$logsDirectory\$testDirectoryName.xml" /html "$logsDirectory\$testDirectoryName.html" }
         }
 
     Write-Host
