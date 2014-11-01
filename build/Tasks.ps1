@@ -17,6 +17,9 @@ properties {
     $testsDirectory = "$solutionDirectory\tests"
     $nuget = "$packagesDirectory\NuGet\NuGet.exe"
     $xunit = "$packagesDirectory\xunit.runners\tools\xunit.console.clr4.exe"
+    $msBuildLog = "$artifactsDirectory\logs\msbuild.log"
+    $xunitXmlLog = "$artifactsDirectory\logs\xunit.xml"
+    $xunitHtmlLog = "$artifactsDirectory\logs\xunit.html"
 }
 
 # Cleans the solution by removing bin and obj for the requested configuration.
@@ -31,6 +34,11 @@ Task Clean {
         Write-Host "Deleted artifacts directory."
     }
     
+    Write-Host "Creating artifacts directory..."
+    New-Item -Type Directory -Path $artifactsDirectory | Out-Null
+    New-Item -Type Directory -Path $artifactsDirectory\logs | Out-Null
+    Write-Host "Deleted artifacts directory."
+
     Write-Host
 }
 
@@ -59,9 +67,14 @@ Task Restore-Packages {
 }
 
 # Compile the solution.
-Task Compile -depends Restore-Packages {
+Task Compile -depends Clean, Restore-Packages {
 
-    Exec { msbuild $solution /target:ReBuild /verbosity:$msBuildVerbosity /property:Configuration=$msBuildConfiguration }
+    # psake cannot handle msbuild parameters with ;. The easiest workaround is to use variables when a parameter has multiple values.
+	# It best to use variables for msbuild parameters that have multiple values others 
+    $property = "Configuration=$msBuildConfiguration"
+    $fileLoggerParameters = "LogFile=$msBuildLog;Verbosity=diagnostic;"
+
+    Exec { msbuild $solution /target:ReBuild /verbosity:$msBuildVerbosity /property:$property /fileLoggerParameters:$fileLoggerParameters }
 
     Write-Host
 }
@@ -79,7 +92,7 @@ Task Test -depends Restore-Packages, Compile {
             
             Write-Host "Running tests in '$testAssembly'..."
             Write-Host
-            Exec { & $xunit $testAssembly }
+            Exec { & $xunit $testAssembly /xml $xunitXmlLog /html $xunitHtmlLog }
         }
 
     Write-Host
