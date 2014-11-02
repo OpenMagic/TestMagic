@@ -13,7 +13,7 @@ properties {
     $solution = Get-Solution
     $solutionDirectory = Split-Path $solution -Parent
     $artifactsDirectory = "$solutionDirectory\artifacts"
-    $logsDirectory = "$artifactsDirectory\logs"
+    $logsDirectory = "$solutionDirectory\logs"
     $packagesDirectory = "$solutionDirectory\packages"
     $testsDirectory = "$solutionDirectory\tests"
     $nuget = "$packagesDirectory\NuGet\NuGet.exe"
@@ -26,17 +26,8 @@ Task Clean {
     
     Exec { msbuild $solution /target:Clean /verbosity:$msBuildVerbosity /property:Configuration=$msBuildConfiguration }
     
-    if (Test-Path $artifactsDirectory) {
-
-        Write-Host "Deleting artifacts directory..."
-        Remove-Item -LiteralPath $artifactsDirectory -Recurse -Force | Out-Null
-        Write-Host "Deleted artifacts directory."
-    }
-    
-    Write-Host "Creating artifacts directory..."
-    New-Item -Type Directory -Path $artifactsDirectory | Out-Null
-    New-Item -Type Directory -Path $artifactsDirectory\logs | Out-Null
-    Write-Host "Deleted artifacts directory."
+    New-CleanDirectory $artifactsDirectory
+    New-CleanDirectory $logsDirectory
 
     Write-Host
 }
@@ -133,4 +124,35 @@ Function Get-Solution() {
     }
     
     Return $solution
+}
+
+# Creates $directory if it does not exist or deletes all contents.
+#
+# Cleaning a $directory instead of deleting then creating avoids errors if the $directory is open by another program.
+Function New-CleanDirectory([string] $directory) {
+
+    if (!(Test-Path $directory)) {
+
+        Write-Host "Creating '$directory' directory..."
+        New-Item -Type Directory -Path $directory | Out-Null
+        Write-Host "Created '$directory' directory."
+
+        return
+    }
+
+    $directoryName = $directory.Substring($solutionDirectory.Length + 1)
+
+    Write-Host "Cleaning '$directoryName' directory..."
+
+    Get-ChildItem $directory -File |
+        ForEach-Object {
+            Remove-Item -Path $_.FullName | Out-Null
+        }
+
+    Get-ChildItem $directory -Directory |
+        ForEach-Object {
+            New-CleanDirectory $_.FullName
+        }
+
+    Write-Host "Cleaned '$directoryName' directory."
 }
