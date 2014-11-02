@@ -25,6 +25,10 @@ param (
 Push-Location "$PSScriptRoot\.."
 
 try {
+   Write-Host
+   Write-Host "Preparing build environment" -ForegroundColor Cyan
+   Write-Host "----------------------------------------------------------------------" -ForegroundColor Cyan
+   Write-Host
     .\Build\Restore-NuGet.ps1
     .\Build\Restore-psake.ps1
     
