@@ -1,13 +1,7 @@
 ﻿Framework "4.5.1"
 
 properties {
-
     # Versosity levels
-    $msBuildVerbosity = "minimal"
-    $nuGetVerbosity = "normal"
-
-    # Configuration properties that are likely to be the same for every solution.
-    $msBuildConfiguration = "Release"
 
     # Support properties that are likely to be the same for every solution.
     $solution = Get-Solution
@@ -19,6 +13,10 @@ properties {
     $nuget = "$packagesDirectory\NuGet\NuGet.exe"
     $xunit = "$packagesDirectory\xunit.runners\tools\xunit.console.clr4.exe"
     $msBuildLog = "$logsDirectory\msbuild.log"
+    $msBuildVerbosity = "minimal"
+    $nuGetVerbosity = "normal"
+    $msBuildConfiguration = "Release"
+    $buildYml = "$solutionDirectory\Build.yml"
 }
 
 # Cleans the solution by removing bin and obj for the requested configuration.
@@ -89,7 +87,10 @@ Task Test -depends Restore-Packages, Compile {
 }
 
 Task Package -depends Clean, Compile, Test {
-    Write-Host "todo: Package"
+
+    $version = Get-Version
+
+    Write-Host "todo: Package $version."
     Write-Host "todo: Help"
 }
 
@@ -124,6 +125,42 @@ Function Get-Solution() {
     }
     
     Return $solution
+}
+
+# Get the solution version from Build.yml
+Function Get-Version() {
+
+    $yamlDocument = Get-YamlDocument $buildYml    
+    $nodes = Get-YamlNodes $yamlDocument.RootNode.Children
+    $node = $nodes["Version"]
+
+    return $node.Value
+}
+
+Function Get-YamlDocument([string]$yamlFile) {
+
+    [Reflection.Assembly]::LoadFrom("$packagesDirectory\YamlDotNet\lib\net35\YamlDotNet.dll") | Out-Null
+ 
+    $streamReader = [System.IO.File]::OpenText($yamlFile)
+    $yamlStream = New-Object YamlDotNet.RepresentationModel.YamlStream
+
+    $yamlStream.Load([System.IO.TextReader] $streamReader)
+    $streamReader.Close()
+
+    $document = $yamlStream.Documents[0]
+
+    return $document
+}
+
+Function Get-YamlNodes($yamlNodes) {
+
+    $hash = @{}
+
+     foreach($key in $yamlNodes.Keys) {
+        $hash[$key.Value] = $yamlNodes[$key]
+    }
+
+    return $hash
 }
 
 # Creates $directory if it does not exist or deletes all contents.
