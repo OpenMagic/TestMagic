@@ -1,0 +1,4 @@
+[submodule "submodules/BuildMagic"]
+	path = submodules/BuildMagic
+	url = https://github.com/OpenMagic/BuildMagic.git
+	branch = feature/Add_NuGet_package_solution
