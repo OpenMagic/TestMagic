@@ -33,12 +33,13 @@ rem =======================================================================
 
 pushd %~dp0
 
-set BuildTask = %1
+set BuildTask=%1
 
-if "%1" == "continuous" set BuildTask = 
-if "%1" == "c" set BuildTask = 
+if "%1" == "continuous" set BuildTask="Test"
+if "%1" == "c" set BuildTask="Test"
+if "%1" == "" set BuildTask="Test"
 
-powershell.exe -file .\Build\Build.ps1 %BuildTask%
+powershell.exe submodules\BuildMagic\src\nuget-package-solution\Build.ps1 -SolutionDirectory %~dp0 -BuildTask %BuildTask%
 
 popd
 
