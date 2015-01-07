@@ -11,6 +11,7 @@ namespace TestMagic.Infrastructure
     // todo: document
     // todo: unit tests
     // todo: pull request for FakeItEasy
+    [Obsolete]
     public static partial class Create
     {
         public static object Dummy(Type type)

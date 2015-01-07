@@ -3,6 +3,7 @@
 namespace TestMagic
 {
     // todo: document
+    [Obsolete]
     public class ThenAssertions<TGiven, TException> where TException : Exception
     {
         private WhenAssertions<TGiven> When;

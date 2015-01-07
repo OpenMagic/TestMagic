@@ -3,6 +3,7 @@
 namespace TestMagic
 {
     // todo: document
+    [Obsolete]
     public class GivenAssertions<TGiven>
     {
         internal TGiven Value;

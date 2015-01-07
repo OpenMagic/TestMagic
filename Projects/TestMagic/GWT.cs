@@ -1,6 +1,9 @@
-﻿namespace TestMagic
+﻿using System;
+
+namespace TestMagic
 {
     // todo: document
+    [Obsolete]
     public class GWT
     {
         // todo: document

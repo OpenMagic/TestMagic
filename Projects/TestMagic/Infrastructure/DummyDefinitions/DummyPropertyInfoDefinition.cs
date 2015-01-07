@@ -4,6 +4,7 @@ using FakeItEasy;
 
 namespace TestMagic.Infrastructure.DummyDefinitions
 {
+    [Obsolete]
     public class DummyPropertyInfoDefinition : DummyDefinition<PropertyInfo>
     {
         protected override PropertyInfo CreateDummy()

@@ -1,5 +1,3 @@
-# TestMagic
+# OBSOLETE - TestMagic
 
-Collection of test helpers.
-
-NOTE: This library cannot use any of the *Magic packages because in the future they will depend on this library.
+Do not use TestMagic. It is obsolete. Use SpecFlow & [Structing unit test](http://haacked.com/archive/2012/01/02/structuring-unit-tests.aspx/).

@@ -10,6 +10,7 @@ namespace TestMagic
 {
     // todo: document
     // todo: unit tests
+    [Obsolete]
     internal class Constructor
     {
         private ConstructorInfo ConstructorInfo;
