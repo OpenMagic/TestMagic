@@ -116,7 +116,7 @@ namespace TestMagic.Tests
                 Action action = () => GWT.Given<object>(givenValue: null);
 
                 // Then
-                action.ShouldThrow<ArgumentNullException>().
+                action.Should().Throw<ArgumentNullException>().
                     And.ParamName.Should().Be("givenValue");
             }
         }
@@ -148,7 +148,7 @@ namespace TestMagic.Tests
                 Action action = () => given.When(null);
 
                 // Then
-                action.ShouldThrow<ArgumentNullException>().And.ParamName.Should().Be("action");
+                action.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("action");
             }
         }
 
@@ -184,7 +184,7 @@ namespace TestMagic.Tests
                 Action action = () => given.ShouldBeThrown();
 
                 // Then
-                action.ShouldThrow<Exception>().WithMessage("Expected System.InvalidOperationException, but found System.ArgumentNullException: Value cannot be null.\r\nParameter name: value.");
+                action.Should().Throw<Exception>().WithMessage("Expected System.InvalidOperationException, but found System.ArgumentNullException: Value cannot be null.\r\nParameter name: value.");
             }
 
             [TestMethod]
@@ -197,7 +197,7 @@ namespace TestMagic.Tests
                 Action action = () => given.ShouldBeThrown();
 
                 // Then
-                action.ShouldThrow<Exception>().WithMessage("Expected System.Exception to be thrown but not exception was thrown.");
+                action.Should().Throw<Exception>().WithMessage("Expected System.Exception to be thrown but not exception was thrown.");
             }
 
             [TestMethod]
@@ -210,7 +210,7 @@ namespace TestMagic.Tests
                 Action action = () => given.ShouldBeThrown();
 
                 // Then
-                action.ShouldNotThrow<Exception>();
+                action.Should().NotThrow<Exception>();
             }
 
             [TestMethod]
@@ -240,7 +240,7 @@ namespace TestMagic.Tests
                 Action action = () => given.ForParameter("value");
 
                 // Then
-                action.ShouldNotThrow<Exception>();
+                action.Should().NotThrow<Exception>();
             }
 
             [TestMethod]
@@ -253,7 +253,7 @@ namespace TestMagic.Tests
                 Action action = () => given.ForParameter("wrong parameter name");
 
                 // Then
-                action.ShouldThrow<Exception>().WithMessage("Expected parameter name wrong parameter name, but found value.");
+                action.Should().Throw<Exception>().WithMessage("Expected parameter name wrong parameter name, but found value.");
             }
 
             [TestMethod]
@@ -266,7 +266,7 @@ namespace TestMagic.Tests
                 Action action = () => given.ForParameter("fake name");
 
                 // Then
-                action.ShouldThrow<Exception>().WithMessage("Expected parameter name to be included exception message 'deliberately threw exception'.");
+                action.Should().Throw<Exception>().WithMessage("Expected parameter name to be included exception message 'deliberately threw exception'.");
             }
 
             [TestMethod]
@@ -279,7 +279,7 @@ namespace TestMagic.Tests
                 Action action = () => given.ForParameter("fake name");
 
                 // Then
-                action.ShouldThrow<InvalidOperationException>().WithMessage("ForParameter(paramName) cannot be called before ShouldBeThrown().");
+                action.Should().Throw<InvalidOperationException>().WithMessage("ForParameter(paramName) cannot be called before ShouldBeThrown().");
             }
         }
 
