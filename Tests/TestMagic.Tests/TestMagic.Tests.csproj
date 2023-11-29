@@ -64,14 +64,14 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\TestMagic\Properties\CommonAssemblyInfo.cs">
+    <Compile Include="..\..\Source\TestMagic\Properties\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="GWTTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TestMagic\TestMagic.csproj">
+    <ProjectReference Include="..\..\Source\TestMagic\TestMagic.csproj">
       <Project>{252921A9-D046-49AC-9185-87087761C182}</Project>
       <Name>TestMagic</Name>
     </ProjectReference>
